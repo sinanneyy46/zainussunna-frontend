@@ -122,7 +122,6 @@ export default function Admission() {
   const [confirmationChecked, setConfirmationChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [admissionId, setAdmissionId] = useState(null);
 
   // Fetch programs from backend
   useEffect(() => {
@@ -312,8 +311,6 @@ export default function Admission() {
         step_data: step1Data,
         time_spent: 0,
       });
-
-      setAdmissionId(admission.id);
 
       // Step 2: Complete academic details
       const step2Data = {

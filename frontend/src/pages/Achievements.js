@@ -16,9 +16,6 @@ function Achievements() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all");
 
-  // Animation refs for CTA section
-  const [ctaRef, ctaVisible] = useScrollAnimation({ threshold: 0.3 });
-
   const totalPages =
     achievements.length > 0 ? Math.ceil(achievements.length / PER_PAGE) : 1;
   const start = (page - 1) * PER_PAGE;

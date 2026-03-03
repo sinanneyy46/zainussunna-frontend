@@ -11,7 +11,6 @@ function Gallery() {
   const [active, setActive] = useState(null);
   const [galleryItems, setGalleryItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState("all");
 
   // Animation refs for CTA section
@@ -95,10 +94,8 @@ function Gallery() {
         } else if (Array.isArray(data)) {
           setGalleryItems(data);
         }
-        setError(null);
       } catch (err) {
         console.error("Error fetching gallery:", err);
-        setError("Failed to load gallery. Please try again later.");
       } finally {
         setLoading(false);
       }
