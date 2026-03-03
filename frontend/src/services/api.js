@@ -1,9 +1,9 @@
 // Frontend API Service for Zainussunna Academy
 // Handles all backend communication with proper error handling.
-// Production API is default; set REACT_APP_API_URL=http://localhost:8000/api for local development
+// Default: localhost for local development
+// Set REACT_APP_API_URL=https://api.zainussunnaacademy.com/api for production
 
-const API_BASE =
-  process.env.REACT_APP_API_URL || "https://api.zainussunnaacademy.com/api";
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
 
 class ApiService {
   constructor() {
