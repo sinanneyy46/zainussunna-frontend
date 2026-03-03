@@ -29,10 +29,8 @@ function Achievements() {
         } else if (Array.isArray(data)) {
           setAchievements(data);
         }
-        setError(null);
       } catch (err) {
         console.error("Error fetching achievements:", err);
-        setError("Failed to load achievements. Please try again later.");
       } finally {
         setLoading(false);
       }
