@@ -4,7 +4,6 @@ import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import "../styles/Achievements.scss";
 import api from "../services/api";
-import { useScrollAnimation } from "../hooks/useScrollAnimation";
 
 const PER_PAGE = 6;
 
@@ -13,7 +12,6 @@ function Achievements() {
   const [active, setActive] = useState(null);
   const [achievements, setAchievements] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all");
 
   const totalPages =
