@@ -1,0 +1,77 @@
+@import "./global.scss";
+
+header {
+  background-color: rgba($bg-white, 0.8);
+  color: $text-inverse;
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0);
+  transition: box-shadow 0.3s ease;
+
+  &.scrolled {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      img {
+        height: 70px;
+        margin-right: 12px;
+      }
+      .academy-name {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        h1 {
+          font-size: 24px;
+          color: $blue-primary;
+          font-family: "DMSans-Black";
+          height: 25px;
+        }
+        h2 {
+          font-size: 20px;
+          color: $blue-secondary;
+          height: -1px;
+        }
+      }
+    }
+    nav {
+      ul {
+        list-style: none;
+        display: flex;
+        gap: 42px;
+        li {
+          a {
+            text-decoration: none;
+            color: $text-primary;
+            font-weight: 550;
+            font-size: 16px;
+            transition: color 0.2s ease;
+
+            &:hover {
+              color: $blue-accent;
+            }
+          }
+        }
+      }
+    }
+
+    .btn {
+      .enquire-arrow {
+        margin-right: 6px;
+        height: 16px;
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
