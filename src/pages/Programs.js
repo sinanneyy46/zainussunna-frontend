@@ -319,6 +319,19 @@ function Programs() {
     );
   }
 
+  // Display error message if there's an error
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <div className="error-container">
+          <p>{error}</p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar />

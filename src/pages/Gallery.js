@@ -83,9 +83,6 @@ function Gallery() {
     },
   ];
 
-  const totalPages =
-    galleryItems.length > 0 ? Math.ceil(galleryItems.length / PER_PAGE) : 1;
-
   // Filter items by category
   const filteredItems =
     activeCategory === "all"
