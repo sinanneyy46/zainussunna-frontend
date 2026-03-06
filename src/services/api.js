@@ -147,12 +147,12 @@ class ApiService {
     return this.request(`/programs/${programId}/schema/`);
   }
 
-  // Admissions - Requires auth
+  // Admissions - Public (no auth required for submission)
   async createAdmission(data) {
     return this.request("/admissions/", {
       method: "POST",
       body: JSON.stringify(data),
-      auth: true,
+      auth: false, // Public: no auth required
     });
   }
 
@@ -173,20 +173,20 @@ class ApiService {
     return this.request(`/admissions/${id}/complete_step/`, {
       method: "POST",
       body: JSON.stringify({ step_data: stepData, time_spent: timeSpent }),
-      auth: true,
+      auth: false, // Public: no auth required for submission flow
     });
   }
 
   async submitAdmission(id) {
     return this.request(`/admissions/${id}/submit/`, {
       method: "POST",
-      auth: true,
+      auth: false, // Public: no auth required for submission flow
     });
   }
 
   async getAdmissionStatus(id) {
     return this.request(`/admissions/${id}/status/`, {
-      auth: true,
+      auth: false, // Public: no auth required for submission flow
     });
   }
 
@@ -284,7 +284,7 @@ class ApiService {
         admission_id: admissionId,
         message_type: messageType,
       }),
-      auth: true,
+      auth: false, // Public: no auth required
     });
   }
 

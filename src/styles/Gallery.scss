@@ -209,19 +209,24 @@
   aspect-ratio: 4 / 3;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
 
     .item-overlay {
       opacity: 1;
     }
 
     img {
-      transform: scale(1.08);
+      transform: scale(1.12);
+    }
+
+    .view-icon {
+      transform: scale(1);
+      opacity: 1;
     }
   }
 
@@ -235,7 +240,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
   }
 
@@ -245,30 +250,27 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(
-      180deg,
-      transparent 50%,
-      rgba($blue-primary, 0.7) 100%
-    );
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
 
     .overlay-content {
       .view-icon {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 45px;
-        height: 45px;
-        padding: 10px;
-        background: $bg-white;
+        width: 50px;
+        height: 50px;
+        background: rgba($bg-white, 0.95);
         border-radius: 50%;
-        font-size: 28px;
+        font-size: 20px;
         color: $blue-primary;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+        transform: scale(0.8);
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
     }
   }
@@ -326,10 +328,8 @@
     display: flex;
     gap: 8px;
 
-    button {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+    .paginator-button {
+      border-radius: 50px;
       border: 2px solid rgba($blue-accent, 0.2);
       background: $bg-white;
       font-family: "DMSans-Bold";
@@ -515,7 +515,7 @@
   padding: 80px 40px !important;
   text-align: center;
   border-radius: 28px;
-  margin: 80px auto !important;
+
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -644,108 +644,6 @@
   }
 }
 
-/* LIGHTBOX */
-.lightbox-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba($blue-primary, 0.95);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(10px);
-  padding: 40px;
-}
-
-.lightbox-close {
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba($bg-white, 0.9);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: $bg-white;
-    transform: rotate(90deg);
-  }
-
-  img {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-.lightbox-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: rgba($bg-white, 0.9);
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: $blue-primary;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  z-index: 10;
-
-  &:hover {
-    background: $bg-white;
-    transform: translateY(-50%) scale(1.1);
-  }
-
-  &.prev {
-    left: 30px;
-  }
-
-  &.next {
-    right: 30px;
-  }
-}
-
-.lightbox-content {
-  max-width: 1000px;
-  width: 100%;
-  text-align: center;
-
-  img {
-    max-width: 100%;
-    max-height: 70vh;
-    object-fit: contain;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  }
-
-  .lightbox-caption {
-    margin-top: 25px;
-    color: $bg-white;
-
-    h3 {
-      font-family: "DMSans-Bold";
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-
-    p {
-      font-size: 16px;
-      opacity: 0.9;
-    }
-  }
-}
-
 /* RESPONSIVE */
 @media (max-width: 1024px) {
   .gallery-grid {
@@ -858,36 +756,6 @@
     .btn {
       padding: 14px 30px;
       font-size: 16px;
-    }
-  }
-
-  .lightbox-overlay {
-    padding: 20px;
-  }
-
-  .lightbox-nav {
-    width: 45px;
-    height: 45px;
-    font-size: 18px;
-
-    &.prev {
-      left: 10px;
-    }
-
-    &.next {
-      right: 10px;
-    }
-  }
-
-  .lightbox-content {
-    .lightbox-caption {
-      h3 {
-        font-size: 18px;
-      }
-
-      p {
-        font-size: 14px;
-      }
     }
   }
 }

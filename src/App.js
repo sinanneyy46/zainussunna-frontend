@@ -10,6 +10,7 @@ import Gallery from "./pages/Gallery";
 import Admissions from "./pages/Admissions";
 import Contact from "./pages/Contact";
 import Faculty from "./pages/Faculty";
+import Legal from "./pages/Legal";
 
 function App() {
   const [showIntro, setShowIntro] = useState(false);
@@ -56,6 +57,22 @@ function App() {
             <Route path="/Admissions" element={<Admissions />} />
             <Route path="/Contact" element={<Contact />} />
             <Route path="/Faculty" element={<Faculty />} />
+            <Route
+              path="/privacy-policy"
+              element={<Legal slug="privacy-policy" />}
+            />
+            <Route
+              path="/terms-conditions"
+              element={<Legal slug="terms-conditions" />}
+            />
+            <Route
+              path="/refund-policy"
+              element={<Legal slug="refund-policy" />}
+            />
+            <Route
+              path="/shipping-policy"
+              element={<Legal slug="shipping-policy" />}
+            />
           </Routes>
         </Router>
       )}

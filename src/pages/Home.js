@@ -178,7 +178,7 @@ function Home() {
           className={`metric animate-item delay-1 ${metricsVisible ? "animate-in" : ""}`}
         >
           <h1>{studentsCount}+</h1>
-          <p>Students Enrolled</p>
+          <p>Students Graduated</p>
         </div>
         <div
           className={`metric animate-item delay-2 ${metricsVisible ? "animate-in" : ""}`}

@@ -306,7 +306,7 @@ export default function Admission() {
           admission_id: admissionId,
           message_type: "success",
         }),
-        auth: true,
+        auth: false, // Public: no auth required
       });
 
       if (response.whatsapp_url) {

@@ -14,10 +14,22 @@ function Achievements() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
+  // Filter achievements based on selected category
+  const filteredAchievements =
+    filter === "all"
+      ? achievements
+      : achievements.filter(
+          (item) =>
+            (item.category || "academic").toLowerCase() ===
+            filter.toLowerCase(),
+        );
+
   const totalPages =
-    achievements.length > 0 ? Math.ceil(achievements.length / PER_PAGE) : 1;
+    filteredAchievements.length > 0
+      ? Math.ceil(filteredAchievements.length / PER_PAGE)
+      : 1;
   const start = (page - 1) * PER_PAGE;
-  const items = achievements.slice(start, start + PER_PAGE);
+  const items = filteredAchievements.slice(start, start + PER_PAGE);
 
   useEffect(() => {
     const fetchAchievements = async () => {
@@ -40,9 +52,9 @@ function Achievements() {
   }, []);
 
   const stats = [
-    { number: "500+", label: "Graduates" },
-    { number: "50+", label: "Hafiz Completed" },
-    { number: "15+", label: "Years of Excellence" },
+    { number: "50+", label: "Graduates" },
+    { number: "10+", label: "Hafiz Completed" },
+    { number: "18+", label: "Years of Excellence" },
     { number: "100%", label: "Success Rate" },
   ];
 
@@ -106,7 +118,10 @@ function Achievements() {
                   <button
                     key={cat.id}
                     className={`filter-btn ${filter === cat.id ? "active" : ""}`}
-                    onClick={() => setFilter(cat.id)}
+                    onClick={() => {
+                      setFilter(cat.id);
+                      setPage(1);
+                    }}
                   >
                     {cat.label}
                   </button>
@@ -138,9 +153,9 @@ function Achievements() {
                           e.target.src = require("../assets/images/achievements1.jpeg");
                         }}
                       />
-                      <div className="card-overlay">
+                      {/* <div className="card-overlay">
                         <span className="view-btn">View Details</span>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="card-content">
                       <span className="card-category">
@@ -177,7 +192,9 @@ function Achievements() {
                     {Array.from({ length: totalPages }).map((_, i) => (
                       <button
                         key={i}
-                        className={page === i + 1 ? "active" : ""}
+                        className={
+                          page === i + 1 ? "paginator-button active" : ""
+                        }
                         onClick={() => setPage(i + 1)}
                       >
                         {i + 1}
@@ -205,7 +222,7 @@ function Achievements() {
                   <span className="featured-label">Featured Achievement</span>
                   <h2>Excellence in Hifz Program</h2>
                   <p>
-                    Our Thahfeel-ul-Qur'an program has produced over 50 Huffaz
+                    Our Thahfeel-ul-Qur'an program has produced over 10 Huffaz
                     who have memorized the entire Qur'an with proper Tajweed.
                     Many have gone on to become Imams, teachers, and community
                     leaders.
@@ -223,7 +240,7 @@ function Achievements() {
                     alt="Hifz Program"
                   />
                   <div className="image-badge">
-                    <span className="badge-number">50+</span>
+                    <span className="badge-number">10+</span>
                     <span className="badge-text">Huffaz</span>
                   </div>
                 </div>

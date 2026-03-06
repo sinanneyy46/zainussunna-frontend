@@ -16,7 +16,7 @@ function About() {
 
   const stats = [
     { number: "15+", label: "Years of Excellence" },
-    { number: "50+", label: "Students Enrolled" },
+    { number: "50+", label: "Students Graduated" },
     { number: "10+", label: "Huffal" },
     { number: "8+", label: "Expert Faculty" },
   ];
@@ -247,67 +247,71 @@ function About() {
               </div>
             </div>
           </ScrollReveal>
+        </div>
+      </ScrollReveal>
 
-          {/* Gallery Section */}
-          <ScrollReveal as="section" className="gallery-section">
-            <div className="container">
-              <div className="section-header">
-                <h2>Campus Life</h2>
-                <p>Glimpses of our learning environment</p>
-              </div>
-              <div className="gallery-grid">
-                <div className="gallery-item large">
-                  <img
-                    src={require("../assets/images/IMG_0072.jpeg")}
-                    alt="Campus"
-                  />
-                </div>
-                <div className="gallery-item">
-                  <img
-                    src={require("../assets/images/IMG_0097.jpeg")}
-                    alt="Classroom"
-                  />
-                </div>
-                <div className="gallery-item">
-                  <img
-                    src={require("../assets/images/IMG_0113.jpeg")}
-                    alt="Students"
-                  />
-                </div>
-                <div className="gallery-item">
-                  <img
-                    src={require("../assets/images/IMG_0122.jpeg")}
-                    alt="Study"
-                  />
-                </div>
-                <div className="gallery-item">
-                  <img
-                    src={require("../assets/images/IMG_0130.jpeg")}
-                    alt="Activities"
-                  />
-                </div>
-              </div>
+      {/* Gallery Section - Outside ScrollReveal to avoid nesting issues */}
+      <section className="gallery-section">
+        <div className="container">
+          <div className="section-header">
+            <h2>Campus Life</h2>
+            <p>Glimpses of our learning environment</p>
+          </div>
+          <div className="gallery-grid">
+            <div className="gallery-item large">
+              <img
+                src={require("../assets/images/IMG_0072.jpeg")}
+                alt="Campus"
+              />
             </div>
-          </ScrollReveal>
+            <div className="gallery-item">
+              <img
+                src={require("../assets/images/IMG_0097.jpeg")}
+                alt="Classroom"
+              />
+            </div>
+            <div className="gallery-item">
+              <img
+                src={require("../assets/images/IMG_0113.jpeg")}
+                alt="Students"
+              />
+            </div>
+            <div className="gallery-item">
+              <img
+                src={require("../assets/images/IMG_0122.jpeg")}
+                alt="Study"
+              />
+            </div>
+            <div className="gallery-item">
+              <img
+                src={require("../assets/images/IMG_0130.jpeg")}
+                alt="Activities"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
-          {/* CTA Section */}
-          <section
-            className={`cta-section ${ctaVisible ? "animate-in" : ""}`}
-            ref={ctaRef}
-          >
-            {/* Live Floating Geometry Patterns */}
-            <img
-              src={require("../assets/images/geomtric.png")}
-              className="geo-shape geo-1"
-              alt=""
-            />
-            <img
-              src={require("../assets/images/geomtric.png")}
-              className="geo-shape geo-4"
-              alt=""
-            />
+      {/* CTA Section - Outside wrapper, properly structured */}
+      <div className="container">
+        <section
+          className={`cta-section ${ctaVisible ? "animate-in" : ""}`}
+          ref={ctaRef}
+        >
+          {/* Live Floating Geometry Patterns */}
+          <img
+            src={require("../assets/images/geomtric.png")}
+            className="geo-shape geo-1"
+            alt=""
+          />
+          <img
+            src={require("../assets/images/geomtric.png")}
+            className="geo-shape geo-4"
+            alt=""
+          />
 
-            <div className="container">
+          <div className="container">
+            <div className="cta-content">
               <h2>Join Our Community</h2>
               <p>
                 Be part of a tradition of excellence in Islamic education. Your
@@ -331,10 +335,9 @@ function About() {
                 Start Your Journey
               </button>
             </div>
-          </section>
-        </div>
-      </ScrollReveal>
-
+          </div>
+        </section>
+      </div>
       <Footer />
     </>
   );

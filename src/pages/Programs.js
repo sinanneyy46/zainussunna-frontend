@@ -174,7 +174,6 @@ const getProgramIcon = (programId, isActive) => {
 };
 
 function Programs() {
-  const [ctaRef, ctaVisible] = useScrollAnimation({ threshold: 0.3 });
   const [activeProgram, setActiveProgram] = useState("integrated");
   const [isHovered, setIsHovered] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
@@ -184,6 +183,7 @@ function Programs() {
 
   // Fetch programs from backend
   useEffect(() => {
+    const elements = document.querySelectorAll("[data-reveal]");
     const fetchPrograms = async () => {
       try {
         setLoading(true);
@@ -206,61 +206,91 @@ function Programs() {
     fetchPrograms();
   }, []);
 
+  // Map frontend tab ID to backend program slug
+  const mapTabToProgramSlug = (tabId) => {
+    const tabIdLower = tabId?.toLowerCase();
+    if (tabIdLower === "integrated") return "shareea";
+    if (tabIdLower === "quran") return "thahfeez";
+    return tabIdLower;
+  };
+
+  // Map backend program slug to frontend tab ID
+  const mapProgramToTab = (slug) => {
+    const slugLower = slug?.toLowerCase();
+    if (slugLower === "shareea" || slugLower === "integrated")
+      return "integrated";
+    if (slugLower === "thahfeez" || slugLower === "quran") return "quran";
+    return slugLower;
+  };
+
+  const handleProgramClick = (programSlug) => {
+    const tabId = mapProgramToTab(programSlug);
+    setActiveProgram(tabId);
+  };
+
   // Get active program data - from backend or fallback
   const getActiveProgramData = () => {
-    // First, try to find the program from backend data
-    const backendProgram = programs.find((p) => {
-      const slug = p.slug?.toLowerCase();
-      return (
-        slug === activeProgram || slug === "shareea" || slug === "integrated"
-      );
-    });
+    // Always use fallback as default
+    let result = fallbackPrograms[activeProgram] || fallbackPrograms.integrated;
 
-    if (backendProgram) {
-      // Transform backend data to frontend format
-      return {
-        id: backendProgram.id,
-        title: backendProgram.name,
-        subtitle: backendProgram.subtitle || "",
-        description: backendProgram.description,
-        image: backendProgram.image
-          ? `${process.env.REACT_APP_API_URL || "http://localhost:8000/api"}${backendProgram.image}`
-          : fallbackPrograms[activeProgram]?.image,
-        gallery:
-          backendProgram.gallery?.length > 0
-            ? backendProgram.gallery.map((g) =>
-                g.image
-                  ? `${process.env.REACT_APP_API_URL || "http://localhost:8000/api"}${g.image}`
-                  : g,
-              )
-            : fallbackPrograms[activeProgram]?.gallery || [],
-        features:
-          backendProgram.features ||
-          fallbackPrograms[activeProgram]?.features ||
-          [],
-        curriculum:
-          backendProgram.curriculum ||
-          fallbackPrograms[activeProgram]?.curriculum ||
-          [],
-        outcomes:
-          backendProgram.outcomes ||
-          fallbackPrograms[activeProgram]?.outcomes ||
-          [],
-      };
+    // Then try to find from backend data using proper slug mapping
+    if (programs.length > 0) {
+      const programSlug = mapTabToProgramSlug(activeProgram);
+      const backendProgram = programs.find((p) => {
+        const slug = p.slug?.toLowerCase();
+        return slug === programSlug;
+      });
+
+      if (backendProgram && backendProgram.description) {
+        // Transform backend data to frontend format
+        result = {
+          id: backendProgram.id,
+          title: backendProgram.name,
+          subtitle: backendProgram.subtitle || "",
+          description: backendProgram.description,
+          image: backendProgram.image
+            ? `${process.env.REACT_APP_API_URL || "http://localhost:8000"}${backendProgram.image}`
+            : fallbackPrograms[activeProgram]?.image,
+          gallery:
+            backendProgram.gallery?.length > 0
+              ? backendProgram.gallery.map((g) =>
+                  g.image
+                    ? `${process.env.REACT_APP_API_URL || "http://localhost:8000"}${g.image}`
+                    : g,
+                )
+              : fallbackPrograms[activeProgram]?.gallery || [],
+          features:
+            backendProgram.features?.length > 0
+              ? backendProgram.features
+              : fallbackPrograms[activeProgram]?.features || [],
+          curriculum:
+            backendProgram.curriculum?.length > 0
+              ? backendProgram.curriculum
+              : fallbackPrograms[activeProgram]?.curriculum || [],
+          outcomes:
+            backendProgram.outcomes?.length > 0
+              ? backendProgram.outcomes
+              : fallbackPrograms[activeProgram]?.outcomes || [],
+        };
+      }
     }
 
-    // Fallback to hardcoded data
-    return fallbackPrograms[activeProgram] || fallbackPrograms.integrated;
+    return result;
   };
 
   // Get FAQ data - from backend or fallback
   const getFaqData = () => {
-    // Check if any backend program has FAQ data
-    for (const program of programs) {
-      if (program.faq && program.faq.length > 0) {
-        return program.faq;
-      }
+    // First check if there's a matching backend program with FAQ
+    const programSlug = mapTabToProgramSlug(activeProgram);
+    const backendProgram = programs.find(
+      (p) => p.slug?.toLowerCase() === programSlug,
+    );
+
+    if (backendProgram && backendProgram.faq && backendProgram.faq.length > 0) {
+      return backendProgram.faq;
     }
+
+    // Fallback to hardcoded data
     return fallbackFaqData;
   };
 
@@ -268,7 +298,7 @@ function Programs() {
   const getProgramTabs = () => {
     if (programs.length > 0) {
       return programs.map((p) => ({
-        id: p.slug,
+        id: mapProgramToTab(p.slug),
         name: p.name,
         subtitle: p.subtitle,
       }));
@@ -283,7 +313,7 @@ function Programs() {
       {
         id: "quran",
         name: "Qur'anic Studies",
-        subtitle: "Thahfeel-ul-Qur'an Program",
+        subtitle: "Thahfeel-ul-Qu'ran Program",
       },
     ];
   };
@@ -291,20 +321,6 @@ function Programs() {
   const programData = getActiveProgramData();
   const faqData = getFaqData();
   const programTabs = getProgramTabs();
-
-  // Map program slug to tab id
-  const mapProgramToTab = (slug) => {
-    const slugLower = slug?.toLowerCase();
-    if (slugLower === "shareea" || slugLower === "integrated")
-      return "integrated";
-    if (slugLower === "quran" || slugLower === "thahfeez") return "quran";
-    return slugLower;
-  };
-
-  const handleProgramClick = (programSlug) => {
-    const tabId = mapProgramToTab(programSlug);
-    setActiveProgram(tabId);
-  };
 
   if (loading) {
     return (
@@ -436,7 +452,7 @@ function Programs() {
 
                 {/* Gallery */}
                 {programData.gallery && programData.gallery.length > 0 && (
-                  <div className="gallery-section">
+                  <div className="programs-gallery-section">
                     <h3>Classroom Moments</h3>
                     <div className="gallery-grid">
                       {programData.gallery.map((img, index) => (
@@ -518,10 +534,7 @@ function Programs() {
           )}
 
           {/* CTA Section */}
-          <section
-            className={`cta-section ${ctaVisible ? "animate-in" : ""}`}
-            ref={ctaRef}
-          >
+          <ScrollReveal as="section" className="cta-section">
             {/* Live Floating Geometry Patterns */}
             <img
               src={require("../assets/images/geomtric.png")}
@@ -558,7 +571,7 @@ function Programs() {
                 Start Your Application
               </button>
             </div>
-          </section>
+          </ScrollReveal>
         </div>
       </ScrollReveal>
       <Footer />

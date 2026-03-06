@@ -655,72 +655,6 @@
   }
 }
 
-/* CTA SECTION */
-.contact-cta {
-  width: 100%;
-  padding: 100px 20px;
-  background: linear-gradient(135deg, $blue-primary 0%, $blue-accent 100%);
-  text-align: center;
-
-  .container {
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .cta-content {
-    h2 {
-      font-family: "DMSans-Bold";
-      font-size: 42px;
-      color: $bg-white;
-      margin-bottom: 20px;
-    }
-
-    p {
-      font-size: 18px;
-      color: rgba($bg-white, 0.9);
-      margin-bottom: 35px;
-      line-height: 1.7;
-    }
-  }
-
-  .cta-buttons {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-
-    .btn {
-      padding: 16px 40px;
-      font-size: 16px;
-      border-radius: 50px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary-invert {
-      background: $bg-white;
-      color: $blue-primary;
-      font-weight: 600;
-
-      &:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      }
-    }
-
-    .btn-secondary-invert {
-      background: transparent;
-      color: $bg-white;
-      border: 2px solid $bg-white;
-      font-weight: 600;
-
-      &:hover {
-        background: $bg-white;
-        color: $blue-primary;
-      }
-    }
-  }
-}
-
 /* CTA SECTION - Hero Panel Style */
 .cta-section {
   background: linear-gradient(
@@ -733,7 +667,7 @@
   padding: 80px 40px !important;
   text-align: center;
   border-radius: 28px;
-  margin: 80px auto !important;
+
   position: relative;
   overflow: hidden;
   z-index: 1;

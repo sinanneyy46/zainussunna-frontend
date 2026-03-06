@@ -6,6 +6,8 @@ import "../styles/Navbar.scss";
 function Navbar() {
   const [isHovered, setIsHovered] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [menuInitialized, setMenuInitialized] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -16,103 +18,144 @@ function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Initialize menu state on first render
+  React.useEffect(() => {
+    setMenuInitialized(true);
+  }, []);
+
+  // Close mobile menu when route changes
+  React.useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Prevent body scroll when mobile menu is open
+  React.useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [mobileMenuOpen]);
+
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/About" },
+    { name: "Programs", path: "/Programs" },
+    { name: "Achievements", path: "/Achievements" },
+    { name: "Gallery", path: "/Gallery" },
+    { name: "Admissions", path: "/Admissions" },
+    { name: "Contact", path: "/Contact" },
+  ];
+
+  const toggleMobileMenu = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setMobileMenuOpen((prev) => !prev);
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <>
-      <header className={scrolled ? "scrolled" : ""}>
-        <div className="container">
-          <div className="logo" onClick={() => navigate("/")}>
-            <img src={require("../assets/logos/logo.png")} alt="Logo" />
-            <div className="academy-name">
-              <h1>Zainussunna</h1>
-              <h2>Academy</h2>
-            </div>
+    <header className={scrolled ? "scrolled" : ""}>
+      <div className="container">
+        <div className="logo" onClick={() => navigate("/")}>
+          <img src={require("../assets/logos/logo.png")} alt="Logo" />
+          <div className="academy-name">
+            <h1>Zainussunna</h1>
+            <h2>Academy</h2>
           </div>
-
-          <nav>
-            <ul>
-              <li>
-                <a
-                  className={`nav-a ${location.pathname === "/" ? "active" : ""}`}
-                  href="/"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  className={`nav-a ${location.pathname === "/About" ? "active" : ""}`}
-                  href="/About"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  className={`nav-a ${location.pathname === "/Programs" ? "active" : ""}`}
-                  href="/Programs"
-                >
-                  Programs
-                </a>
-              </li>
-              <li>
-                <a
-                  className={`nav-a ${location.pathname === "/Achievements" ? "active" : ""}`}
-                  href="/Achievements"
-                >
-                  Achievements
-                </a>
-              </li>
-              <li>
-                <a
-                  className={`nav-a ${location.pathname === "/Gallery" ? "active" : ""}`}
-                  href="/Gallery"
-                >
-                  Gallery
-                </a>
-              </li>
-              <li>
-                <a
-                  className={`nav-a ${location.pathname === "/Admissions" ? "active" : ""}`}
-                  href="/Admissions"
-                >
-                  Admissions
-                </a>
-              </li>
-              <li>
-                <a
-                  className={`nav-a ${location.pathname === "/Contact" ? "active" : ""}`}
-                  href="/Contact"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-
-          <button
-            className="btn btn-primary"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onClick={() => navigate("/Admissions")}
-          >
-            {isHovered ? (
-              <img
-                src={require("../assets/icons/arrow-pr.svg").default}
-                alt="Enquire Icon"
-                className="enquire-arrow"
-              />
-            ) : (
-              <img
-                src={require("../assets/icons/arrow-in.svg").default}
-                alt="Enquire Icon"
-                className="enquire-arrow"
-              />
-            )}
-            Enquire Now
-          </button>
         </div>
-      </header>
-    </>
+
+        <nav className="nav-menu">
+          <ul>
+            {navItems.map((item) => (
+              <li key={item.path}>
+                <a
+                  className={`nav-a ${
+                    location.pathname === item.path ? "active" : ""
+                  }`}
+                  href={item.path}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <button
+          className="btn btn-primary desktop-only"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onClick={() => navigate("/Admissions")}
+        >
+          {isHovered ? (
+            <img
+              src={require("../assets/icons/arrow-pr.svg").default}
+              alt="Enquire Icon"
+              className="enquire-arrow"
+            />
+          ) : (
+            <img
+              src={require("../assets/icons/arrow-in.svg").default}
+              alt="Enquire Icon"
+              className="enquire-arrow"
+            />
+          )}
+          Enquire Now
+        </button>
+
+        {/* Mobile Menu Toggle Button */}
+        <button
+          className={`mobile-menu-toggle ${menuInitialized && mobileMenuOpen ? "active" : ""}`}
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <span className="hamburger-line line-1"></span>
+          <span className="hamburger-line line-2"></span>
+          <span className="hamburger-line line-3"></span>
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`mobile-menu-overlay ${menuInitialized && mobileMenuOpen ? "active" : ""}`}
+        onClick={closeMobileMenu}
+      ></div>
+
+      {/* Mobile Menu Panel */}
+      <div
+        className={`mobile-menu-panel ${menuInitialized && mobileMenuOpen ? "active" : ""}`}
+      >
+        <nav className="mobile-nav">
+          <ul>
+            {navItems.map((item) => (
+              <li key={item.path}>
+                <a
+                  className={`nav-a ${
+                    location.pathname === item.path ? "active" : ""
+                  }`}
+                  href={item.path}
+                >
+                  {item.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <button
+          className="btn btn-primary mobile-enquire-btn"
+          onClick={() => navigate("/Admissions")}
+        >
+          Enquire Now
+        </button>
+      </div>
+    </header>
   );
 }
 

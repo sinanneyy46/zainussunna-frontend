@@ -111,11 +111,64 @@
   /* MOBILE */
   @media (max-width: 900px) {
     .faculty-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
     }
 
     .faculty-header h2 {
-      font-size: 28px;
+      font-size: 24px;
+    }
+
+    .faculty-header p {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .faculty-section {
+      padding: 40px 0;
+
+      .container {
+        padding: 0 16px !important;
+      }
+    }
+
+    .faculty-header {
+      margin-bottom: 30px;
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+
+    .faculty-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .faculty-card {
+      padding: 16px 12px;
+      border-radius: 14px;
+
+      .photo {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        font-size: 13px;
+      }
+
+      .role {
+        font-size: 10px;
+        margin-bottom: 4px;
+      }
+
+      .specialization {
+        font-size: 10px;
+        display: none;
+      }
     }
   }
 }

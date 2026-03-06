@@ -8,7 +8,6 @@ const PER_PAGE = 12;
 
 function Gallery() {
   const [page, setPage] = useState(1);
-  const [active, setActive] = useState(null);
   const [galleryItems, setGalleryItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState("all");
@@ -172,29 +171,6 @@ function Gallery() {
     return () => obs.disconnect();
   }, [items]);
 
-  const openLightbox = (item) => {
-    setActive(item);
-    document.body.style.overflow = "hidden";
-  };
-
-  const closeLightbox = () => {
-    setActive(null);
-    document.body.style.overflow = "auto";
-  };
-
-  const navigateLightbox = (direction) => {
-    const currentIndex = items.findIndex((item) => item === active);
-    let newIndex;
-
-    if (direction === "next") {
-      newIndex = (currentIndex + 1) % items.length;
-    } else {
-      newIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
-    }
-
-    setActive(items[newIndex]);
-  };
-
   if (loading) {
     return (
       <>
@@ -252,12 +228,7 @@ function Gallery() {
             <div className="container">
               <div className="gallery-grid">
                 {items.map((item, i) => (
-                  <div
-                    key={item.id || i}
-                    className="gallery-item"
-                    data-reveal
-                    onClick={() => openLightbox(item)}
-                  >
+                  <div key={item.id || i} className="gallery-item" data-reveal>
                     <div className="item-wrapper">
                       <img
                         src={item.image}
@@ -265,11 +236,7 @@ function Gallery() {
                       />
                       <div className="item-overlay">
                         <div className="overlay-content">
-                          <img
-                            className="view-icon"
-                            src={require("../assets/icons/zoom-in.png")}
-                            alt="Campus Tour"
-                          />
+                          <span className="view-icon">🔍</span>
                         </div>
                       </div>
                     </div>
@@ -301,7 +268,9 @@ function Gallery() {
                     {Array.from({ length: filteredTotalPages }).map((_, i) => (
                       <button
                         key={i}
-                        className={page === i + 1 ? "active" : ""}
+                        className={
+                          page === i + 1 ? "paginator-button active" : ""
+                        }
                         onClick={() => setPage(i + 1)}
                       >
                         {i + 1}
@@ -377,52 +346,6 @@ function Gallery() {
               </div>
             </div>
           </section>
-
-          {/* Lightbox Modal */}
-          {active && (
-            <div className="lightbox-overlay" onClick={closeLightbox}>
-              <button className="lightbox-close" onClick={closeLightbox}>
-                <img
-                  src={require("../assets/icons/close.svg").default}
-                  alt="Close"
-                />
-              </button>
-
-              <button
-                className="lightbox-nav prev"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigateLightbox("prev");
-                }}
-              >
-                ←
-              </button>
-
-              <div
-                className="lightbox-content"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <img src={active.image} alt={active.title || "Gallery image"} />
-                <div className="lightbox-caption">
-                  <h3>{active.title || "Academy Moment"}</h3>
-                  <p>
-                    {active.description ||
-                      "A memorable moment at Zainussunna Academy"}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                className="lightbox-nav next"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigateLightbox("next");
-                }}
-              >
-                →
-              </button>
-            </div>
-          )}
         </div>
       </section>
       <Footer />

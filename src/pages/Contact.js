@@ -20,8 +20,6 @@ function Contact() {
   const [loading, setLoading] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
-
-  // Animation refs for CTA section
   const [ctaRef, ctaVisible] = useScrollAnimation({ threshold: 0.3 });
 
   useEffect(() => {
@@ -470,7 +468,7 @@ Please contact me regarding admission.`;
             className={`cta-section ${ctaVisible ? "animate-in" : ""}`}
             ref={ctaRef}
           >
-            {/* Live Floating Geometry Patterns */}
+            {/* Livex Floating Geometry Patterns */}
             <img
               src={require("../assets/images/geomtric.png")}
               className="geo-shape geo-1"
