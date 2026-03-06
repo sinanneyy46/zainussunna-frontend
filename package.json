@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "eslint": "^8.57.0",
     "eslint-config-react-app": "^7.0.1",
+    "lucide-react": "^0.577.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "react-router-dom": "^6.30.2",

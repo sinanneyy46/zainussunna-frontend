@@ -1077,19 +1077,25 @@ export default function Admission() {
                           <strong>Name:</strong> {form.name}
                         </p>
                         <p>
-                          <strong>DOB:</strong> {form.dob},{" "}
+                          <strong>DOB:</strong> {form.dob}
+                        </p>
+                        <p>
                           <strong>Age:</strong> {form.age}
                         </p>
                         <p>
-                          <strong>Phone:</strong> {countryCode} {form.phone},{" "}
+                          <strong>Phone:</strong> {countryCode} {form.phone}
+                        </p>
+                        <p>
                           <strong>Email:</strong> {form.email}
                         </p>
                         <p>
-                          <strong>Address:</strong> {form.houseName},{" "}
-                          {form.place}, {form.postOffice} - {form.zipCode}
+                          <strong>Address:</strong> {form.houseName} House,{" "}
+                          {form.place}, PO {form.postOffice} - {form.zipCode}
                         </p>
                         <p>
-                          <strong>State:</strong> {form.state},{" "}
+                          <strong>State:</strong> {form.state}
+                        </p>
+                        <p>
                           <strong>District:</strong> {form.district}
                         </p>
                       </div>
@@ -1104,22 +1110,30 @@ export default function Admission() {
                           </button>
                         </div>
                         <p>
-                          <strong>Madrassa:</strong> {form.madrassaName},{" "}
-                          <strong>Stopped:</strong> {form.classStopped}
+                          <strong>Madrassa:</strong> {form.madrassaName}
                         </p>
                         <p>
-                          <strong>Standard:</strong> {form.standard},{" "}
+                          <strong>{"->"} Stopped:</strong> {form.classStopped}
+                        </p>
+                        <p>
                           <strong>School:</strong> {form.schoolCollege}
+                        </p>
+                        <p>
+                          <strong>{" ->"} Stopped:</strong> {form.standard}
                         </p>
                         <p>
                           <strong>Languages:</strong>{" "}
                           {form.languages.join(", ")}
                         </p>
                         {program === "shareea" && (
-                          <p>
-                            <strong>Skills:</strong> {form.skills},{" "}
-                            <strong>Interests:</strong> {form.interests}
-                          </p>
+                          <>
+                            <p>
+                              <strong>Skills:</strong> {form.skills}
+                            </p>
+                            <p>
+                              <strong>Interests:</strong> {form.interests}
+                            </p>
+                          </>
                         )}
                         {program === "thahfeez" && (
                           <p>

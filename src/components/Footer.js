@@ -10,7 +10,7 @@ function Footer() {
           <div className="footer-top">
             <div className="footer-content">
               <div className="footer-content-top">
-                <img src={require("../assets/logos/logo.png")} alt="Logo" />
+                <img src={require("../assets/logos/fav.png")} alt="Logo" />
                 <h2>Zainussunna Academy</h2>
               </div>
               <div className="footer-content-bottom ">
@@ -87,24 +87,6 @@ function Footer() {
                 </li>
                 <li>
                   <a href="/contact">Contact</a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="footer-legals">
-              <h4>Legals</h4>
-              <ul>
-                <li>
-                  <a href="/privacy-policy">Privacy Policy</a>
-                </li>
-                <li>
-                  <a href="/terms-conditions">Terms & Conditions</a>
-                </li>
-                <li>
-                  <a href="/refund-policy">Refund Policy</a>
-                </li>
-                <li>
-                  <a href="/shipping-policy">Shipping Policy</a>
                 </li>
               </ul>
             </div>

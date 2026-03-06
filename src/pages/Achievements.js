@@ -153,9 +153,6 @@ function Achievements() {
                           e.target.src = require("../assets/images/achievements1.jpeg");
                         }}
                       />
-                      {/* <div className="card-overlay">
-                        <span className="view-btn">View Details</span>
-                      </div> */}
                     </div>
                     <div className="card-content">
                       <span className="card-category">

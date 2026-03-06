@@ -1,5 +1,15 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {
+  Home,
+  BookOpen,
+  Award,
+  Image,
+  GraduationCap,
+  Phone,
+  Info,
+  MessageCircle,
+} from "lucide-react";
 
 import "../styles/Navbar.scss";
 
@@ -41,13 +51,13 @@ function Navbar() {
   }, [mobileMenuOpen]);
 
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "About", path: "/About" },
-    { name: "Programs", path: "/Programs" },
-    { name: "Achievements", path: "/Achievements" },
-    { name: "Gallery", path: "/Gallery" },
-    { name: "Admissions", path: "/Admissions" },
-    { name: "Contact", path: "/Contact" },
+    { name: "Home", path: "/", icon: Home },
+    { name: "About", path: "/About", icon: Info },
+    { name: "Programs", path: "/Programs", icon: BookOpen },
+    { name: "Achievements", path: "/Achievements", icon: Award },
+    { name: "Gallery", path: "/Gallery", icon: Image },
+    { name: "Admissions", path: "/Admissions", icon: GraduationCap },
+    { name: "Contact", path: "/Contact", icon: Phone },
   ];
 
   const toggleMobileMenu = (e) => {
@@ -142,6 +152,7 @@ function Navbar() {
                   }`}
                   href={item.path}
                 >
+                  {item.icon && <item.icon size={20} className="nav-icon" />}
                   {item.name}
                 </a>
               </li>
@@ -152,6 +163,7 @@ function Navbar() {
           className="btn btn-primary mobile-enquire-btn"
           onClick={() => navigate("/Admissions")}
         >
+          <MessageCircle size={18} className="btn-icon" />
           Enquire Now
         </button>
       </div>

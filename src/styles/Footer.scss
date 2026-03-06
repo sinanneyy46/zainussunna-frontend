@@ -35,12 +35,11 @@
             width: 100px;
             display: block;
             border-radius: 20px;
-            margin-right: 20px;
+            margin-left: -16px;
           }
           h2 {
             font-family: "DMSans-Bold";
             color: $bg-white;
-            margin: 0 0 12px 0;
             line-height: normal;
             max-width: 300px;
           }
@@ -108,41 +107,6 @@
           padding-left: 20px;
           margin-left: 10px;
           border-left: 2px solid rgba($bg-white, 0.2);
-
-          li {
-            margin-bottom: 8px;
-
-            a {
-              font-size: 14px;
-              color: rgba($bg-white, 0.8);
-              text-decoration: none;
-              transition: color 0.2s ease;
-
-              &:hover {
-                color: $bg-white;
-              }
-            }
-          }
-        }
-      }
-
-      .footer-legals {
-        width: 30%;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
-
-        h4 {
-          font-family: "DMSans-Bold";
-          color: $bg-white;
-          margin-bottom: 12px;
-        }
-
-        ul {
-          list-style: none;
-          padding: 0;
-          margin: 0;
 
           li {
             margin-bottom: 8px;
@@ -263,7 +227,6 @@
         }
 
         .footer-links,
-        .footer-legals,
         .footer-newsletter {
           width: calc(50% - 15px);
           margin-left: 0;
@@ -293,17 +256,17 @@
           text-align: center;
 
           .footer-content-top {
-            flex-direction: column;
+            flex-direction: row;
             justify-content: center;
             margin-bottom: 16px;
 
             img {
               width: 80px;
               margin-right: 0;
-              margin-bottom: 12px;
             }
 
             h2 {
+              font-size: 24px !important;
               max-width: 100%;
               text-align: center;
             }
@@ -321,21 +284,24 @@
           }
         }
 
-        .footer-links,
-        .footer-legals {
+        .footer-links {
           width: 100%;
           text-align: center;
           align-items: center;
 
           h4 {
-            margin-bottom: 16px;
             font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba($bg-white, 0.2);
           }
 
           ul {
-            padding-left: 0;
-            margin-left: 0;
+            padding: 0 0 10px 0;
+            margin: 0;
             border-left: none;
+            border-bottom: 1px solid rgba($bg-white, 0.2);
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -348,12 +314,6 @@
                 font-size: 13px;
               }
             }
-          }
-        }
-
-        .footer-legals {
-          ul {
-            justify-content: center;
           }
         }
 
@@ -432,8 +392,7 @@
           }
         }
 
-        .footer-links,
-        .footer-legals {
+        .footer-links {
           ul {
             gap: 10px 16px;
 

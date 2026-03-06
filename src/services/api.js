@@ -1,12 +1,44 @@
 // Frontend API Service for Zainussunna Academy
 // Handles all backend communication with proper error handling.
-// Local development: http://localhost:8000/api/core
-// Production: https://api.zainussunnaacademy.com/api/core
+//
+// Environment Configuration:
+// - Development (default): Uses localhost
+// - Production: Uses production API
+// - Set REACT_APP_API_URL to override
+//
+// To switch mode, either:
+// 1. Set REACT_APP_ENV=production in .env or Vercel
+// 2. Or set REACT_APP_API_URL directly to your API URL
 
-const API_BASE =
-  process.env.REACT_APP_API_URL ||
-  "https://api.zainussunnaacademy.com/api/core" ||
-  "http://localhost:8000/api/core";
+// Environment configurations
+const API_CONFIGS = {
+  development: "http://localhost:8000/api/core",
+  production: "https://api.zainussunnaacademy.com/api/core",
+  staging: "https://staging-api.zainussunnaacademy.com/api/core",
+};
+
+// Get current environment (default: development)
+const getEnvMode = () => {
+  return process.env.REACT_APP_ENV || "development";
+};
+
+// Get API base URL - priority: env var > environment config > localhost
+const getApiBase = () => {
+  // If explicitly set, use the environment variable
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+  }
+  // Otherwise use the configured environment
+  const mode = getEnvMode();
+  return API_CONFIGS[mode] || API_CONFIGS.development;
+};
+
+const API_BASE = getApiBase();
+
+// Debug logging in development
+if (process.env.NODE_ENV === "development" || getEnvMode() === "development") {
+  console.log(`🔗 API Base URL: ${API_BASE} (${getEnvMode()} mode)`);
+}
 
 // Endpoints that don't require authentication (public endpoints)
 const PUBLIC_ENDPOINTS = [
