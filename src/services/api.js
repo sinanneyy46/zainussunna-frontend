@@ -1,7 +1,7 @@
 // Frontend API Service for Zainussunna Academy
 // Handles all backend communication with proper error handling.
 // Default: localhost for local development
-// Set REACT_APP_API_URL=https://api.zainussunnaacademy.com/api for production
+// For production: Set REACT_APP_API_URL in Vercel dashboard to https://api.zainussunnaacademy.com/api
 
 const API_BASE =
   process.env.REACT_APP_API_URL || "http://localhost:8000/api/core";
