@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import "../styles/Programs.scss";
-import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { api } from "../services/api";
 
 // Fallback data in case backend doesn't have data yet
@@ -183,7 +182,6 @@ function Programs() {
 
   // Fetch programs from backend
   useEffect(() => {
-    const elements = document.querySelectorAll("[data-reveal]");
     const fetchPrograms = async () => {
       try {
         setLoading(true);
