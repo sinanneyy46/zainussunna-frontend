@@ -1,11 +1,11 @@
 // Frontend API Service for Zainussunna Academy
 // Handles all backend communication with proper error handling.
 // Local development: http://localhost:8000/api/core
-// Production: https://api.zainussunnaacademy.com/api
+// Production: https://api.zainussunnaacademy.com/api/core
 
 const API_BASE =
   process.env.REACT_APP_API_URL ||
-  "https://api.zainussunnaacademy.com/api" ||
+  "https://api.zainussunnaacademy.com/api/core" ||
   "http://localhost:8000/api/core";
 
 // Endpoints that don't require authentication (public endpoints)
