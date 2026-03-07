@@ -2,42 +2,23 @@
 // Handles all backend communication with proper error handling.
 //
 // Environment Configuration:
-// - Development (default): Uses localhost
-// - Production: Uses production API
-// - Set REACT_APP_API_URL to override
+// - Local development (.env.local): Uses http://127.0.0.1:8000/api/core
+// - Vercel/Production: Uses https://api.zainussunnaacademy.com/api/core
 //
-// To switch mode, either:
-// 1. Set REACT_APP_ENV=production in .env or Vercel
-// 2. Or set REACT_APP_API_URL directly to your API URL
+// The API_BASE is automatically set based on environment:
+// 1. First checks REACT_APP_API_BASE environment variable
+// 2. Falls back to production API if not set
+//
+// No manual switching needed!
 
-// Environment configurations
-const API_CONFIGS = {
-  development: "http://localhost:8000/api/core",
-  production: "https://api.zainussunnaacademy.com/api/core",
-  staging: "https://staging-api.zainussunnaacademy.com/api/core",
-};
-
-// Get current environment (default: development)
-const getEnvMode = () => {
-  return process.env.REACT_APP_ENV || "development";
-};
-
-// Get API base URL - priority: env var > environment config > localhost
-const getApiBase = () => {
-  // If explicitly set, use the environment variable
-  if (process.env.REACT_APP_API_URL) {
-    return process.env.REACT_APP_API_URL;
-  }
-  // Otherwise use the configured environment
-  const mode = getEnvMode();
-  return API_CONFIGS[mode] || API_CONFIGS.development;
-};
-
-const API_BASE = getApiBase();
+// Get API base URL - uses env var if set, otherwise defaults to production
+const API_BASE =
+  process.env.REACT_APP_API_BASE ||
+  "https://api.zainussunnaacademy.com/api/core";
 
 // Debug logging in development
-if (process.env.NODE_ENV === "development" || getEnvMode() === "development") {
-  console.log(`🔗 API Base URL: ${API_BASE} (${getEnvMode()} mode)`);
+if (process.env.NODE_ENV === "development") {
+  console.log(`🔗 API Base URL: ${API_BASE} (development mode)`);
 }
 
 // Endpoints that don't require authentication (public endpoints)
