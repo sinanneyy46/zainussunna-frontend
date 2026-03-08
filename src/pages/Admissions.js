@@ -291,10 +291,19 @@ export default function Admission() {
     update("languages", newLangs);
   };
 
-  const next = () => setStep((s) => Math.min(s + 1, 4));
-  const back = () => setStep((s) => Math.max(s - 1, 1));
+  const next = () => {
+    window.scrollTo(0, 0);
+    setStep((s) => Math.min(s + 1, 4));
+  };
+  const back = () => {
+    window.scrollTo(0, 0);
+    setStep((s) => Math.max(s - 1, 1));
+  };
   const jumpToStep = (targetStep) => {
-    if (targetStep <= step) setStep(targetStep);
+    if (targetStep <= step) {
+      window.scrollTo(0, 0);
+      setStep(targetStep);
+    }
   };
 
   // Function to generate WhatsApp message after submission
@@ -329,8 +338,9 @@ export default function Admission() {
       }
 
       // Step 1: Create admission with personal info
+      // NOTE: student_photo must be extracted from step_data and passed as top-level
+      // because the backend serializer expects it at the root level, not inside step_data
       const step1Data = {
-        student_photo: form.studentPhoto,
         name: form.name,
         dob: form.dob,
         phone: form.phone,
@@ -349,6 +359,7 @@ export default function Admission() {
         step: 1,
         step_data: step1Data,
         time_spent: 0,
+        student_photo: form.studentPhoto, // Pass as top-level field, NOT inside step_data
       });
 
       // Step 2: Complete academic details

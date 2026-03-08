@@ -82,12 +82,24 @@ class ApiService {
     const includeAuth =
       options.auth !== false && !this.isPublicEndpoint(endpoint);
 
+    // Check if body is FormData - if so, don't set Content-Type header
+    // Let the browser set it with the proper boundary
+    const isFormData = options.body instanceof FormData;
+
     const config = {
       ...options,
-      headers: {
-        ...this.getHeaders(includeAuth),
-        ...options.headers,
-      },
+      headers: isFormData
+        ? {
+            // For FormData, let browser set Content-Type with boundary
+            // Only add auth if needed
+            ...(includeAuth && this.token
+              ? { Authorization: `Bearer ${this.token}` }
+              : {}),
+          }
+        : {
+            ...this.getHeaders(includeAuth),
+            ...options.headers,
+          },
     };
 
     try {
@@ -164,9 +176,59 @@ class ApiService {
 
   // Admissions - Public (no auth required for submission)
   async createAdmission(data) {
+    // Check if step_data contains any file objects
+    const hasFiles =
+      data.step_data &&
+      Object.values(data.step_data).some((value) => value instanceof File);
+
+    if (hasFiles || data.student_photo instanceof File) {
+      // Use FormData for file uploads
+      const formData = new FormData();
+      formData.append("program", data.program);
+      formData.append("step", data.step || 1);
+      formData.append("time_spent", data.time_spent || 0);
+
+      // Add student_photo as separate field if present and is a File
+      if (data.student_photo instanceof File) {
+        formData.append("student_photo", data.student_photo);
+      }
+
+      // IMPORTANT: Send step_data as a single JSON string, not as nested keys
+      // DRF doesn't parse step_data[name] format correctly
+      if (data.step_data) {
+        // Filter out any File objects from step_data (they should be handled separately)
+        const stepDataWithoutFiles = {};
+        for (const [key, value] of Object.entries(data.step_data)) {
+          if (
+            !(value instanceof File) &&
+            value !== null &&
+            value !== undefined
+          ) {
+            stepDataWithoutFiles[key] = value;
+          }
+        }
+        formData.append("step_data", JSON.stringify(stepDataWithoutFiles));
+      }
+
+      return this.request("/admissions/", {
+        method: "POST",
+        body: formData,
+        auth: false,
+        // No headers needed - request method now handles FormData correctly
+      });
+    }
+
+    // For JSON requests, remove null/undefined values to avoid serialization issues
+    const cleanData = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (value !== null && value !== undefined) {
+        cleanData[key] = value;
+      }
+    }
+
     return this.request("/admissions/", {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(cleanData),
       auth: false, // Public: no auth required
     });
   }
@@ -185,6 +247,52 @@ class ApiService {
   }
 
   async completeStep(id, stepData, timeSpent = 0) {
+    // Check if stepData contains any file objects
+    const hasFiles =
+      stepData &&
+      Object.values(stepData).some((value) => value instanceof File);
+
+    // Check for achievements file (can be in different keys)
+    const achievementsFile =
+      stepData?.achievements_file ||
+      stepData?.thahfeezAchievements ||
+      stepData?.achievementsFile;
+
+    if (hasFiles || achievementsFile instanceof File) {
+      // Use FormData for file uploads
+      const formData = new FormData();
+      formData.append("time_spent", timeSpent || 0);
+
+      // Add achievements_file as separate field if present
+      if (achievementsFile instanceof File) {
+        formData.append("achievements_file", achievementsFile);
+      }
+
+      // IMPORTANT: Send step_data as a single JSON string, not as nested keys
+      // DRF doesn't parse step_data[name] format correctly
+      if (stepData) {
+        // Filter out any File objects from stepData (they should be handled separately)
+        const stepDataWithoutFiles = {};
+        for (const [key, value] of Object.entries(stepData)) {
+          if (
+            !(value instanceof File) &&
+            value !== null &&
+            value !== undefined
+          ) {
+            stepDataWithoutFiles[key] = value;
+          }
+        }
+        formData.append("step_data", JSON.stringify(stepDataWithoutFiles));
+      }
+
+      return this.request(`/admissions/${id}/complete_step/`, {
+        method: "POST",
+        body: formData,
+        auth: false,
+        // No headers needed - request method now handles FormData correctly
+      });
+    }
+
     return this.request(`/admissions/${id}/complete_step/`, {
       method: "POST",
       body: JSON.stringify({ step_data: stepData, time_spent: timeSpent }),
