@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * ScrollReveal wrapper component
  * Wraps children and adds 'is-visible' class when element enters viewport
+ * Automatically disables animation on mobile devices
  */
 const ScrollReveal = ({
   children,
@@ -13,8 +14,29 @@ const ScrollReveal = ({
   ...props
 }) => {
   const ref = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if device is mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
+    // Skip animation on mobile - immediately show content
+    if (isMobile) {
+      if (ref.current) {
+        ref.current.classList.add("is-visible");
+      }
+      return;
+    }
+
     const element = ref.current;
     if (!element) return;
 
@@ -42,7 +64,7 @@ const ScrollReveal = ({
         observer.unobserve(element);
       }
     };
-  }, [threshold, triggerOnce]);
+  }, [threshold, triggerOnce, isMobile]);
 
   return (
     <Component ref={ref} data-reveal className={className} {...props}>

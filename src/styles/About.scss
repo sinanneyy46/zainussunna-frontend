@@ -14,6 +14,15 @@
   transform: translateY(0);
 }
 
+/* Mobile: Show content by default - disable scroll reveal animation */
+@media (max-width: 768px) {
+  [data-reveal],
+  [data-reveal].is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* Staggered children animation */
 [data-reveal] {
   > * {

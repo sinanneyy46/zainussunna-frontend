@@ -127,6 +127,13 @@ export default function Admission() {
   const [whatsappUrl, setWhatsappUrl] = useState(null);
   const [submittedApplicationId, setSubmittedApplicationId] = useState(null);
 
+  // Scroll to top when success screen is shown
+  useEffect(() => {
+    if (toast && submittedApplicationId) {
+      window.scrollTo(0, 0);
+    }
+  }, [toast, submittedApplicationId]);
+
   // Fetch programs from backend
   useEffect(() => {
     const fetchPrograms = async () => {
